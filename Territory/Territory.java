@@ -1,72 +1,104 @@
 package Territory;
-import java.util.Scanner;
-import java.util.List;
+
+
+import Buildings.Building;
+import Villagers.Villager;
+import Villagers.Engineer;//enhances defense level
+import Villagers.Scholar;//enhances technology level
+import Villagers.Healer;//enhances health level
 import java.util.ArrayList;
-import Villagers.*;
+import java.util.List;
+import java.util.Random;
 
-public class Territory {
-    private String name;
-    private List<Villager> villagers=new ArrayList<Villager>();
+public abstract class Territory {
+    protected String name;
+    protected List<Building> buildings;
+    protected List<Villager> villagers;
 
-    public Territory(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\n Name of territory: ");
-        this.name=scanner.nextLine();
-        System.out.print("How big is your territory i.e. number of villagers?: ");
-        populateTerritory(Integer.parseInt(scanner.nextLine()));
+    protected int defenseLevel;
+    protected int technologyLevel;
+    protected int healthLevel;
 
+    public Territory(String name) {
+        this.name = name;
+        this.buildings = new ArrayList<>();
+        this.villagers = new ArrayList<>();
+        this.defenseLevel = 1;
+        this.technologyLevel = 1;
+        this.healthLevel = 100;
     }
 
-    private void populateTerritory(int iterations) {
-        Scanner scanner = new Scanner(System.in);
-        for (int i = 0; i < iterations; i++) {
-            System.out.println("\nSelect villager type:");
-            System.out.println("1: Knight");
-            System.out.println("2: Farmer");
-            System.out.println("3: Merchant");
-            System.out.print("Enter choice: ");
-            int choice = Integer.parseInt(scanner.nextLine());
-    
-            System.out.print("Enter first name: ");
-            String fName = scanner.nextLine();
-            System.out.print("Enter last name: ");
-            String sName = scanner.nextLine();
-            System.out.print("Enter age: ");
-            int age = Integer.parseInt(scanner.nextLine());
-    
-            Villager villager = null;
-            switch (choice) {
-                case 1:
-                    villager = new Knight(fName, sName, age);
-                    break;
-                case 2:
-                    villager = new Farmer(fName, sName, age);
-                    break;
-                case 3:
-                    villager = new Merchant(fName, sName, age);
-                    break;
-                default:
-                    System.out.println("Invalid choice. Defaulting to Knight.");
-                    villager = new Knight(fName, sName, age);
-                    break;
-            }
-            this.villagers.add(villager);
+    public abstract void addBuilding(Building building);
+
+    public abstract void printStructure();
+
+    public void addVillager(Villager villager) {
+        villagers.add(villager);
+        applyVillagerEnhancement(villager);
+    }
+
+    protected void applyVillagerEnhancement(Villager villager) {
+        if (villager instanceof Villagers.Engineer) {
+            defenseLevel += 1;
+            System.out.println("Defense level increased to " + defenseLevel);
+        } else if (villager instanceof Villagers.Scholar) {
+            technologyLevel += 1;
+            System.out.println("Technology level increased to " + technologyLevel);
+        } else if (villager instanceof Villagers.Healer) {
+            healthLevel = Math.min(healthLevel + 10, 100);
+            System.out.println("Health level increased to " + healthLevel + "%");
         }
     }
-    
+
     public String getName() {
         return name;
     }
 
-    public List<Villager> getvillages() {
+    public void attack(Territory enemy) {
+        int attackPower = (this.technologyLevel + this.defenseLevel) * 10;
+        System.out.println(this.getName() + " is attacking " + enemy.getName() + " with power " + attackPower);
+        enemy.takeDamage(attackPower);
+        if (enemy.isConquered()) {
+            System.out.println(enemy.getName() + " has been conquered by " + this.getName());
+        }
+    }
+
+    public void takeDamage(int damage) {
+        healthLevel -= damage;
+        if (healthLevel < 0) {
+            healthLevel = 0;
+        }
+        System.out.println(getName() + " took " + damage + " damage. Health is now " + healthLevel + "%");
+
+        // Chance to lose a building
+        if (!buildings.isEmpty()) {
+            int chance = new Random().nextInt(100);
+            if (chance < 30) { // 30% chance to lose a building
+                Building lostBuilding = buildings.remove(0); // Remove the first building
+                System.out.println(getName() + " lost the building: " + lostBuilding.getName());
+            }
+        }
+    }
+
+    public boolean isConquered() {
+        return healthLevel <= 0;
+    }
+
+    public List<Building> getBuildings() {
+        return buildings;
+    }
+
+    public List<Villager> getVillagers() {
         return villagers;
     }
 
-    public void printVillagers() {
-        for (Villager v : this.villagers) {
-            v.print();  // Polymorphic call
+    public List<Villager> getUnassignedVillagers() {
+        List<Villager> unassigned = new ArrayList<>();
+        for (Villager v : villagers) {
+            if (v.getAssignedBuilding() == null) {
+                unassigned.add(v);
+            }
         }
+        return unassigned;
     }
-    
 }
-

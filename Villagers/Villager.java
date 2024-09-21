@@ -1,41 +1,61 @@
 package Villagers;
-
+import Buildings.Building;
 
 public abstract class Villager {
 
-    String FirstName;
-    String LastName;
-    int Age;
+    String firstName;
+    String lastName;
+    int age;
+    private Building assignedBuilding;
 
     public Villager(String firstName, String lastName, int age) {
-        FirstName=firstName;
-        LastName=lastName;
-        Age=age;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.age=age;
+        this.assignedBuilding=null;
     }
 
     public String getFirstName(){
-        return FirstName;
+        return firstName;
     }
     
     public String getLastName(){
-        return LastName;
+        return lastName;
     }
 
     public int getAge() {
-        return Age;
+        return age;
     }
 
     public void setFirstName(String firstName) {
-        FirstName=firstName;
+        this.firstName=firstName;
     }
 
     public void setLastName(String lastName) {
-        LastName=lastName;
+        this.lastName=lastName;
     }
 
     public void setAge(int age) {
-        Age=age;
+        this.age=age;
     }
 
-    public abstract void print();
+    public Building getAssignedBuilding() {
+        return assignedBuilding;
+    }
+
+    public void setAssignedBuilding(Building building) {
+        this.assignedBuilding = building;
+    }
+
+    public  void performDuty() {};
+    
+    // public abstract void print();
+    public void print() {
+        System.out.println("  Villager: " + this.firstName + " " + this.lastName + ", Age: " + this.age);
+        if (assignedBuilding != null) {
+            System.out.println("    Assigned to: " + assignedBuilding.getName());
+        } else {
+            System.out.println("    Not assigned to any building.");
+        }
+    }
 }
