@@ -11,8 +11,8 @@ The project is a territory management and strategy game where players choose to 
 # Prerequisites
 Java version 22.0.1 
 # Steps to set up the project locally.
-If you are forking from Github clone this 
-[git@github.com:BenyamWorku/Java_Assessment.git]
+If you are Cloning or forking from Github use this 
+[ git@github.com:BenyamWorku/Java_Assessment.git ]
 # Commands to compile the code using build tools.
 javac app/MainApp.java Territory/*.java Villagers/*.java Buildings/*.java Enemy/EnemyTerritory.java
 
@@ -50,57 +50,62 @@ java app/MainApp.java
 └── README.md                 # Project description and instructions
 ```
 
-## Use these example names to simulate the game 
-1. Kingdom and Dynasty Names
-# Kingdom Names:
+# Game Elements: Names for Kingdoms, Dynasties, Professions, and Buildings
 
-Avalon
-Eldoria
-# Dynasty Names:
+## 1. Kingdom and Dynasty Names
 
-Xiaohuang
-Suryavarman
+### Kingdom Names:
+1. Avalon
+2. Eldoria
 
-2. Names for Each Profession
-# Knight:
+### Dynasty Names:
+1. Xiaohuang
+2. Suryavarman
 
-Galahad The Brave
-Lancelot Steelheart
-# Blacksmith:
+---
 
-Bryn Ironforge
-Halvar Hammerfist
-# Farmer:
+## 2. Names for Each Profession
 
-Rowan Greenshield
-Elara Fields
-# Healer:
+### Knight:
+1. Galahad The Brave
+2. Lancelot Steelheart
 
-Helena Lightfoot
-Mira Silverleaf
-# Engineer:
+### Blacksmith:
+1. Bryn Ironforge
+2. Halvar Hammerfist
 
-Cedric Gearwright
-Talin Rivet
-# Scholar:
+### Farmer:
+1. Rowan Greenshield
+2. Elara Fields
 
-Aeliana Wisehart
-Thaddeus Scrollkeeper
-# Merchant:
+### Healer:
+1. Helena Lightfoot
+2. Mira Silverleaf
 
-Elias Goldhand
-Zara Tradeblade
+### Engineer:
+1. Cedric Gearwright
+2. Talin Rivet
 
-3. Names for Each Building Type
-# Home:
+### Scholar:
+1. Aeliana Wisehart
+2. Thaddeus Scrollkeeper
 
-Avalon Homestead
-Greengrove Cottage
-# Forge:
+### Merchant:
+1. Elias Goldhand
+2. Zara Tradeblade
 
-Ironclad Forge
-The Anvil's Hearth
-# Barracks:
+---
 
-Lion's Den Barracks
-Steelguard Garrison
+## 3. Names for Each Building Type
+
+### Home:
+1. Avalon Homestead
+2. Greengrove Cottage
+
+### Forge:
+1. Ironclad Forge
+2. The Anvil's Hearth
+
+### Barracks:
+1. Lion's Den Barracks
+2. Steelguard Garrison
