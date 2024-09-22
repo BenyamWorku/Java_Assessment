@@ -12,7 +12,7 @@ The project is a territory management and strategy game where players choose to 
 Java version 22.0.1 
 # Steps to set up the project locally.
 If you are forking from Github clone this 
-git@github.com:BenyamWorku/Java_Assessment.git
+[git@github.com:BenyamWorku/Java_Assessment.git]
 # Commands to compile the code using build tools.
 javac app/MainApp.java Territory/*.java Villagers/*.java Buildings/*.java Enemy/EnemyTerritory.java
 
@@ -48,7 +48,59 @@ java app/MainApp.java
 ├── 📂 utils
 │   └── HelperFunctions.java  # Utility functions for input handling and other common tasks
 └── README.md                 # Project description and instructions
+```
 
+## Use these example names to simulate the game 
+1. Kingdom and Dynasty Names
+# Kingdom Names:
 
-## Provide examples of how to use the application.
+Avalon
+Eldoria
+# Dynasty Names:
 
+Xiaohuang
+Suryavarman
+
+2. Names for Each Profession
+# Knight:
+
+Galahad The Brave
+Lancelot Steelheart
+# Blacksmith:
+
+Bryn Ironforge
+Halvar Hammerfist
+# Farmer:
+
+Rowan Greenshield
+Elara Fields
+# Healer:
+
+Helena Lightfoot
+Mira Silverleaf
+# Engineer:
+
+Cedric Gearwright
+Talin Rivet
+# Scholar:
+
+Aeliana Wisehart
+Thaddeus Scrollkeeper
+# Merchant:
+
+Elias Goldhand
+Zara Tradeblade
+
+3. Names for Each Building Type
+# Home:
+
+Avalon Homestead
+Greengrove Cottage
+# Forge:
+
+Ironclad Forge
+The Anvil's Hearth
+# Barracks:
+
+Lion's Den Barracks
+Steelguard Garrison
