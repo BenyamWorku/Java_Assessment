@@ -5,18 +5,22 @@ import Buildings.*;
 import Enemy.EnemyTerritory; // Import the EnemyTerritory class
 import Utils.HelperFunctions;
 import java.util.Scanner;
+import java.util.Random;
+import java.util.List;
+
 
 public class MainApp {
-    private static Scanner scanner = new Scanner(System.in);
+
     private static Territory playerTerritory;
     private static EnemyTerritory enemyTerritory;
+    private static Random random = new Random();
 
     public static void main(String[] args) {
         createPlayerTerritory();
         boolean exit = false;
         while (!exit) {
             HelperFunctions.displayMainMenu();
-            int choice = HelperFunctions.getValidatedIntegerInput(1, 6);
+            int choice = HelperFunctions.getValidatedIntegerInput(1, 7);
             switch (choice) {
                 case 1:
                     addBuilding();
@@ -37,6 +41,9 @@ public class MainApp {
                 case 6:
                     attackEnemyTerritory();
                     break;
+                case 7:
+                    restartGame(); // Call the method to restart the game
+                    break;    
                 default:
                     break;
             }
@@ -49,12 +56,7 @@ public class MainApp {
         System.out.println("2: Dynasty");
         System.out.print("Enter choice: ");
         int choice = HelperFunctions.getValidatedIntegerInput(1, 2);
-        System.out.print("Enter name of territory: ");
-        String name = scanner.nextLine().trim();
-        if (name.isEmpty()) {
-            System.out.println("Name cannot be empty. Defaulting to 'Unnamed Territory'.");
-            name = "Unnamed Territory";
-        }
+        String name = HelperFunctions.getNonEmptyStringInput("Enter name of territory: ");
         if (choice == 1) {
             playerTerritory = new Kingdom(name);
         } else if (choice == 2) {
@@ -63,28 +65,6 @@ public class MainApp {
         System.out.println("Territory '" + playerTerritory.getName() + "' created.");
     }
 
-    // menu method moved to package Utils
-
-    // Methods for adding buildings, villagers, assigning villagers, etc.
-
-    private static void attackEnemyTerritory() {
-        if (enemyTerritory == null) {
-            initializeEnemyTerritory();
-        }
-        playerTerritory.attack(enemyTerritory);
-        if (enemyTerritory.isConquered()) {
-            System.out.println("You have defeated the enemy territory!");
-        } else {
-            enemyTerritory.takeTurn(playerTerritory);
-        }
-    }
-
-    private static void initializeEnemyTerritory() {
-        enemyTerritory = new EnemyTerritory("Enemy Kingdom");
-        System.out.println("An enemy territory has emerged: " + enemyTerritory.getName());
-    }
-
-    // Utility method: getValidatedIntegerInput() moved to package Utils
    
 
     private static void addBuilding() {
@@ -94,12 +74,7 @@ public class MainApp {
         System.out.println("3: Barracks");
         System.out.print("Enter choice: ");
         int choice = HelperFunctions.getValidatedIntegerInput(1, 3);
-        System.out.print("Enter name of the building: ");
-        String name = scanner.nextLine().trim();
-        if (name.isEmpty()) {
-            System.out.println("Name cannot be empty. Building not added.");
-            return;
-        }
+        String name = HelperFunctions.getNonEmptyStringInput("Enter name of the building: ");
         Building building = null;
         switch (choice) {
             case 1:
@@ -112,7 +87,6 @@ public class MainApp {
                 building = new Barracks(name);
                 break;
             default:
-                // This case should not occur due to validation
                 return;
         }
         playerTerritory.addBuilding(building);
@@ -129,21 +103,11 @@ public class MainApp {
         System.out.println("6: Scholar");
         System.out.println("7: Merchant");
         System.out.print("Enter choice: ");
-        int choice = HelperFunctions.getValidatedIntegerInput(1, 6);
-        System.out.print("Enter first name: ");
-        String firstName = scanner.nextLine().trim();
-        if (firstName.isEmpty()) {
-            System.out.println("First name cannot be empty. Villager not added.");
-            return;
-        }
-        System.out.print("Enter last name: ");
-        String lastName = scanner.nextLine().trim();
-        if (lastName.isEmpty()) {
-            System.out.println("Last name cannot be empty. Villager not added.");
-            return;
-        }
+        int choice = HelperFunctions.getValidatedIntegerInput(1, 7);
+        String firstName = HelperFunctions.getNonEmptyStringInput("Enter first name: ");
+        String lastName = HelperFunctions.getNonEmptyStringInput("Enter last name: ");
         System.out.print("Enter age: ");
-        int age = HelperFunctions.getValidatedIntegerInput(0, 120); // Assuming age between 0 and 120
+        int age = HelperFunctions.getValidatedIntegerInput(0, 120);
         Villager villager = null;
         switch (choice) {
             case 1:
@@ -168,7 +132,6 @@ public class MainApp {
                 villager = new Merchant(firstName, lastName, age);
                 break;
             default:
-                // This case should not occur due to validation
                 return;
         }
         playerTerritory.addVillager(villager);
@@ -184,24 +147,24 @@ public class MainApp {
             System.out.println("No unassigned villagers available. Please add villagers first.");
             return;
         }
+
         // List unassigned villagers
         System.out.println("\nAvailable Villagers:");
-        int index = 1;
-        java.util.List<Villager> unassignedVillagers = playerTerritory.getUnassignedVillagers();
-        for (Villager villager : unassignedVillagers) {
-            System.out.println(index + ": " + villager.getFirstName() + " " + villager.getLastName());
-            index++;
+        List<Villager> unassignedVillagers = playerTerritory.getUnassignedVillagers();
+        for (int i = 0; i < unassignedVillagers.size(); i++) {
+            Villager villager = unassignedVillagers.get(i);
+            System.out.println((i + 1) + ": " + villager.getFirstName() + " " + villager.getLastName()
+                    + " (" + villager.getClass().getSimpleName() + ")");
         }
         System.out.print("Enter the number of the villager to assign: ");
         int villagerChoice = HelperFunctions.getValidatedIntegerInput(1, unassignedVillagers.size());
 
         // List buildings
         System.out.println("\nAvailable Buildings:");
-        int bIndex = 1;
-        java.util.List<Building> buildings = playerTerritory.getBuildings();
-        for (Building building : buildings) {
-            System.out.println(bIndex + ": " + building.getName());
-            bIndex++;
+        List<Building> buildings = playerTerritory.getBuildings();
+        for (int i = 0; i < buildings.size(); i++) {
+            Building building = buildings.get(i);
+            System.out.println((i + 1) + ": " + building.getName() + " (" + building.getClass().getSimpleName() + ")");
         }
         System.out.print("Enter the number of the building to assign to: ");
         int buildingChoice = HelperFunctions.getValidatedIntegerInput(1, buildings.size());
@@ -211,9 +174,70 @@ public class MainApp {
         Building selectedBuilding = buildings.get(buildingChoice - 1);
 
         // Assign the villager to the building
-        selectedBuilding.assignVillager(selectedVillager);
+        boolean assignmentSuccessful=selectedBuilding.assignVillager(selectedVillager);
+        if(assignmentSuccessful) {
+             // Apply territory enhancements based on the villager's profession and building
+            if (selectedVillager instanceof Knight && selectedBuilding instanceof Barracks) {
+                playerTerritory.increaseDefenseLevel(10); // Each Knight adds 10 defense
+                System.out.println("Defense level increased by 10.");
+            } else if (selectedVillager instanceof Blacksmith && selectedBuilding instanceof Forge) {
+                playerTerritory.increaseAttackPower(50); // Each Blacksmith adds 50 attack power
+                System.out.println("Attack power increased by 50.");
+            } else if (selectedVillager instanceof Engineer && selectedBuilding instanceof Home) {
+                playerTerritory.increaseDefenseLevel(5); // Engineer adds 5 defense
+                System.out.println("Defense level increased by 5 due to Engineer.");
+            } else if (selectedVillager instanceof Scholar && selectedBuilding instanceof Home) {
+                playerTerritory.increaseTechnologyLevel(5); // Scholar adds 5 technology
+                System.out.println("Technology level increased by 5 due to Scholar.");
+            } else if (selectedVillager instanceof Healer && selectedBuilding instanceof Home) {
+                playerTerritory.increaseHealthLevel(5); // Healer adds 5% health
+                System.out.println("Health level increased by 5% due to Healer.");
+            } else if (selectedVillager instanceof Merchant && selectedBuilding instanceof Home) {
+                int goldGenerated = random.nextInt(51) + 50; // Generates between 50 and 100 gold
+                playerTerritory.addGold(goldGenerated);
+                System.out.println("Merchant generated " + goldGenerated + " gold.");
+            }
+
+
+        } else {
+            System.out.println("Failed to assign villager to the building.");
+        }
+       
+        // For Homes, apply food effects
+        if (selectedBuilding instanceof Home) {
+            ((Home) selectedBuilding).applyFoodEffects(playerTerritory);
+        }
+
         System.out.println("Assigned " + selectedVillager.getFirstName() + " to " + selectedBuilding.getName());
     }
 
+    private static void attackEnemyTerritory() {
+        if (enemyTerritory == null) {
+            initializeEnemyTerritory();
+        }
+        playerTerritory.attack(enemyTerritory);
+        if (enemyTerritory.isConquered()) {
+            System.out.println("You have defeated the enemy territory!");
+        } else {
+            enemyTerritory.takeTurn(playerTerritory);
+        }
+    }
+
+    private static void initializeEnemyTerritory() {
+        enemyTerritory = new EnemyTerritory("Enemy Kingdom");
+        System.out.println("An enemy territory has emerged: " + enemyTerritory.getName());
+    }
+
+    private static void restartGame(){
+        //clears the current game state
+        playerTerritory=null; // wipe clean player's territory
+        enemyTerritory=null; // wipe clean enemy territory
+
+        System.out.println("\nGame restarted. Please choose your new territory:");
+        //Presnenting the initial territory selection menu again
+        createPlayerTerritory();
+    }   
+    
+    
 }
 

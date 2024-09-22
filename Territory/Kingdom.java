@@ -9,24 +9,12 @@ public class Kingdom extends Territory {
         super(name);
     }
 
-    // @Override
-    // public void addBuilding(Building building) {
-    //     buildings.add(building);
-    // }
-
-    // @Override
-    // public void printStructure() {
-    //     System.out.println("\n=== Kingdom: " + getName() + " ===");
-    //     for (Building building : buildings) {
-    //         building.print();
-    //     }
-    // }
-    @Override
+     @Override
     public void addBuilding(Building building) {
         buildings.add(building);
         System.out.println("Building '" + building.getName() + "' added to the Kingdom.");
     }
-    
+
     @Override
     public void printStructure() {
         System.out.println("\n=== Kingdom: " + getName() + " ===");

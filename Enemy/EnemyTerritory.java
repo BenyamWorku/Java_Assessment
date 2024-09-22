@@ -26,7 +26,7 @@ public class EnemyTerritory extends Territory {
 
     @Override
     public void printStructure() {
-        // Optionally implement if needed
+        // Optionally implement 
     }
 
     @Override

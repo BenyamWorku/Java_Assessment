@@ -18,14 +18,16 @@ public abstract class Building {
     }
 
    
-    public void assignVillager(Villager villager) {
+    public boolean assignVillager(Villager villager) {
         if (villager.getAssignedBuilding() != null) {
             System.out.println(villager.getFirstName() + " is already assigned to " + villager.getAssignedBuilding().getName() + ".");
-            return;
+            return false;
         }
         assignedVillagers.add(villager);
         villager.setAssignedBuilding(this);
         System.out.println(villager.getFirstName() + " has been assigned to " + this.getName() + ".");
+    
+        return true;
     }
 
     public List<Villager> getAssignedVillagers() {

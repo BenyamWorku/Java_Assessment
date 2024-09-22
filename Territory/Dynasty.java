@@ -5,31 +5,6 @@ import Villagers.Villager;
 import Buildings.Building;
 import java.util.ArrayList;
 
-// public class Dynasty extends Territory {
-
-//     public Dynasty(String name) {
-//         super(name);
-//         buildings = new ArrayList<>();
-//     }
-
-//     @Override
-//     public void addBuilding(Building building) {
-//         buildings.add(building);
-//     }
-
-//     @Override
-//     public void addVillager(Villager villager) {
-//         // Villagers can be added to the dynasty without assignment to a building
-//     }
-
-//     @Override
-//     public void printStructure() {
-//         System.out.println("\n=== Dynasty: " + getName() + " ===");
-//         for (Building building : buildings) {
-//             building.print();
-//         }
-//     }
-// }
 
 public class Dynasty extends Territory {
 
