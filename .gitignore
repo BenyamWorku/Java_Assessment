@@ -1,0 +1,19 @@
+# Ignore all class files (Java binary files)
+*.class
+
+# Ignore all compiled binary files (general)
+*.o
+*.out
+*.exe
+
+# Ignore build directories
+bin/
+build/
+
+# Ignore log files
+*.log
+
+# Ignore any other binaries or outputs
+*.dll
+*.so
+*.dylib
